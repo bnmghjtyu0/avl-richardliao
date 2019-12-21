@@ -1,25 +1,38 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import "./App.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { Route, Switch ,Redirect} from "react-router-dom";
+import PrivateRoute from "./routes/PrivateRoute";
+import Home from "./pages/Home";
+import About from "./pages/About";
+import Login from "./pages/Login";
+
+const NoMatch = () => {
+  return <div>404</div>;
+};
 
 function App() {
+  document.title="後台"
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Switch>
+      <Route
+        exact
+        path="/"
+        render={() =>
+          !!localStorage.getItem("token") ? (
+            <Redirect to="/home" />
+          ) : (
+            <Redirect to="/login" />
+          )
+        }
+      />
+      <Route exact path="/login" component={Login} />
+      <PrivateRoute path="/home" component={Home} />
+      <PrivateRoute path="/about" component={About} />
+      <Route path="*">
+        <NoMatch />
+      </Route>
+    </Switch>
   );
 }
 

@@ -1,0 +1,28 @@
+.login-title {
+    margin-bottom: 60px;
+}
+.login {
+    display:flex;
+    flex-direction: row;
+    flex-shrink: 1;
+    flex-wrap: nowrap !important;
+    width:600px;
+    justify-content: space-around;
+    @media (max-width:767px) {
+        width: 79%;
+        flex-wrap: wrap !important;
+    }
+    .left {
+        width: 200px;
+        @media (max-width:767px) {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+    }
+    .right {
+        width: 200px;
+        @media (max-width:767px) {
+            width: 100%;
+        }
+    }
+}

@@ -1,0 +1,34 @@
+{
+  "name": "avl-richardliao",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "client-install": "npm install --prefix client",
+    "server": "nodemon ./bin/www",
+    "client": "npm start --prefix client",
+    "heroku-postbuild": "cd client && npm install && npm run build"
+  },
+  "dependencies": {
+    "@hapi/joi": "^16.1.8",
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "dotenv": "^8.2.0",
+    "express": "~4.16.1",
+    "google-auth-library": "^5.7.0",
+    "googleapis": "^46.0.0",
+    "http-errors": "~1.6.3",
+    "install": "^0.13.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.8.1",
+    "morgan": "~1.9.1",
+    "npm": "^6.13.4",
+    "pug": "2.0.0-beta11"
+  },
+  "devDependencies": {
+    "concurrently": "^5.0.2",
+    "nodemon": "^2.0.2"
+  }
+}
