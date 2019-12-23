@@ -2,7 +2,9 @@ import React from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import "react-day-picker/lib/style.css";
 import axios from "axios";
-import {TimeSelect} from 'element-react';
+import moment from "moment";
+import { TimeSelect } from "element-react";
+import { Time, timeIsBetween } from "../../utils/config";
 import restaurantDatas from "../../api/restaurant.json";
 import withLayout from "../../container/withLayout";
 import logo from "../../logo.svg";
@@ -21,6 +23,9 @@ const fakeAuth = {
 };
 
 const Home = () => {
+  const [startDate, setStartDate] = React.useState(
+    new Date(2016, 9, 10, 14, 30)
+  );
   const [restDatas, setRestDatas] = React.useState(restaurantDatas);
   const [datas, setDatas] = React.useState([]);
   const [form, setForm] = React.useState({ title: "" });
@@ -61,24 +66,38 @@ const Home = () => {
   //       </tr>
   //   );
   // });
+  const handleStartUpdate = startDate => {
+    const hour = moment(startDate).format("HH");
+    const min = moment(startDate).format("mm");
+    const check = `${hour}:${min}`;
+    var openTime = new Time("23:30");
+    var closeTime = new Time("06:30");
+    var checkTime = new Time(check);
+    const isBetween = timeIsBetween(openTime, closeTime, checkTime);
+    console.log(isBetween);
+    // console.debug("time-select startDate update: ", startDate);
+    setStartDate(startDate);
+  };
+
   restDatas.map((v, i) => {
-    console.log(v.Sun)
-    // if (v.Sun !== "Closed") {
-    //   console.log(v[""]);
-    // }
+    if (v.Sun !== "Closed") {
+      const closeTime = v.Sun.replace(/([^-]+[-])/, "").trim();
+      // console.log(v[""]);
+    }
   });
   return (
     <header className="App-header">
-    <TimeSelect
-      start="08:30"
-      step="00:15"
-      end="18:30"
-      maxTime="12:30"
-      // onChange={this.handleUpdate.bind(this)}
-      value="08:30"
-      placeholder="选择时间"
-      />
-      <div className="container">
+      <div className="d-flex">
+        <TimeSelect
+          start="00:00"
+          step="00:30"
+          end="24:00"
+          onChange={handleStartUpdate}
+          value={startDate}
+          placeholder="選擇時間"
+        />
+      </div>
+      <div className="container mt-5">
         <table className="table table-light">
           <thead className="bg-primary text-white">
             <tr>
