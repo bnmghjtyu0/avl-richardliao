@@ -1,8 +1,8 @@
 import React from "react";
 import { useHistory, useLocation } from "react-router-dom";
-import DayPicker from "react-day-picker";
 import "react-day-picker/lib/style.css";
 import axios from "axios";
+import {TimeSelect} from 'element-react';
 import restaurantDatas from "../../api/restaurant.json";
 import withLayout from "../../container/withLayout";
 import logo from "../../logo.svg";
@@ -48,38 +48,75 @@ const Home = () => {
     ]);
     getHome();
   };
-  const renderTable = restDatas.map((val, idx) => {
-    return (
-      <tr>
-        <td>{val["Sun"]}</td>
-        <td>{val["Mon"]}</td>
-        <td>{val["Tue"]}</td>
-        <td>{val["Wed"]}</td>
-        <td>{val["Thu"]}</td>
-        <td>{val["Fri"]}</td>
-        <td>{val["Sat"]}</td>
-      </tr>
-    );
+  // const renderTable = restDatas.map((val, idx) => {
+  //   console.log(val["Sun"] === "Closed");
+  //   return (
+  //       <tr>
+  //         <th scope="row">Big</th>
+  //         <td>1</td>
+  //         <td>1</td>
+  //         <td>1</td>
+  //         <td>1</td>
+  //         <td>3</td>
+  //       </tr>
+  //   );
+  // });
+  restDatas.map((v, i) => {
+    console.log(v.Sun)
+    // if (v.Sun !== "Closed") {
+    //   console.log(v[""]);
+    // }
   });
   return (
     <header className="App-header">
+    <TimeSelect
+      start="08:30"
+      step="00:15"
+      end="18:30"
+      maxTime="12:30"
+      // onChange={this.handleUpdate.bind(this)}
+      value="08:30"
+      placeholder="选择时间"
+      />
       <div className="container">
         <table className="table table-light">
           <thead className="bg-primary text-white">
             <tr>
-              <th>Sun</th>
-              <th>Mon</th>
-              <th>Tue</th>
-              <th>Wen</th>
-              <th>Thu</th>
-              <th>Fri</th>
-              <th>Sat</th>
+              <th scope="col"></th>
+              <th scope="col">Sun</th>
+              <th scope="col">Mon</th>
+              <th scope="col">Tue</th>
+              <th scope="col">Wen</th>
+              <th scope="col">Thu</th>
+              <th scope="col">Fri</th>
+              <th scope="col">Sat</th>
             </tr>
           </thead>
-          <tbody>{renderTable}</tbody>
+          <tbody>
+            <tr>
+              <th scope="row">11:00</th>
+              <td>1</td>
+              <td>1</td>
+              <td>1</td>
+              <td>1</td>
+              <td>3</td>
+              <td>3</td>
+              <td>3</td>
+            </tr>
+            <tr>
+              <th scope="row">12:00</th>
+              <td>1</td>
+              <td>1</td>
+              <td>1</td>
+              <td>1</td>
+              <td>3</td>
+              <td>3</td>
+              <td>3</td>
+            </tr>
+          </tbody>
         </table>
       </div>
-      <DayPicker />
+
       <div>
         {datas &&
           datas.map((data, dataIdx) => {
