@@ -26,6 +26,8 @@ const Home = () => {
   const [startDate, setStartDate] = React.useState(
     new Date(2016, 9, 10, 14, 30)
   );
+  const [checkTime, setCheckTime] = React.useState("00:00");
+  const [nowOpenRest, setNowOpenRest] = React.useState("");
   const [restDatas, setRestDatas] = React.useState(restaurantDatas);
   const [datas, setDatas] = React.useState([]);
   const [form, setForm] = React.useState({ title: "" });
@@ -75,14 +77,22 @@ const Home = () => {
     var checkTime = new Time(check);
     const isBetween = timeIsBetween(openTime, closeTime, checkTime);
     console.log(isBetween);
+    setCheckTime(check);
     // console.debug("time-select startDate update: ", startDate);
     setStartDate(startDate);
   };
 
   restDatas.map((v, i) => {
     if (v.Sun !== "Closed") {
+      const startTime = v.Sun.replace(/\s+/g, "").replace(/([-])\w+:\w+/, "");
       const closeTime = v.Sun.replace(/([^-]+[-])/, "").trim();
-      // console.log(v[""]);
+      var openTimeA = new Time(startTime);
+      var closeTimeA = new Time(closeTime);
+      var checkTimeA = new Time(checkTime);
+      const isBetween = timeIsBetween(openTimeA, closeTimeA, checkTimeA);
+      if (isBetween) {
+        console.log("Open", v[""]);
+      }
     }
   });
   return (
@@ -97,6 +107,8 @@ const Home = () => {
           placeholder="選擇時間"
         />
       </div>
+      <p className="mt-2">時間來不及，console 有資料</p>
+
       <div className="container mt-5">
         <table className="table table-light">
           <thead className="bg-primary text-white">
@@ -124,6 +136,26 @@ const Home = () => {
             </tr>
             <tr>
               <th scope="row">12:00</th>
+              <td>1</td>
+              <td>1</td>
+              <td>1</td>
+              <td>1</td>
+              <td>3</td>
+              <td>3</td>
+              <td>3</td>
+            </tr>
+            <tr>
+              <th scope="row">13:00</th>
+              <td>1</td>
+              <td>1</td>
+              <td>1</td>
+              <td>1</td>
+              <td>3</td>
+              <td>3</td>
+              <td>3</td>
+            </tr>
+            <tr>
+              <th scope="row">14:00</th>
               <td>1</td>
               <td>1</td>
               <td>1</td>
