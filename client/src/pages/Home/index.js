@@ -3,8 +3,7 @@ import { useHistory, useLocation } from "react-router-dom";
 import DayPicker from "react-day-picker";
 import "react-day-picker/lib/style.css";
 import axios from "axios";
-import CSVReader from "react-csv-reader";
-import Papa from 'papaparse';
+import restaurantDatas from "../../api/restaurant.json";
 import withLayout from "../../container/withLayout";
 import logo from "../../logo.svg";
 import server from "../../server/index";
@@ -22,33 +21,16 @@ const fakeAuth = {
 };
 
 const Home = () => {
+  const [restDatas, setRestDatas] = React.useState(restaurantDatas);
   const [datas, setDatas] = React.useState([]);
   const [form, setForm] = React.useState({ title: "" });
   let { from } = !localStorage.getItem("token") || {
     from: { pathname: "/login" }
   };
   let history = useHistory();
-  const fetchCsv = () => {
-    return fetch("/data/data.csv").then(function(response) {
-      let reader = response.body.getReader();
-      let decoder = new TextDecoder("utf-8");
 
-      return reader.read().then(function(result) {
-        return decoder.decode(result.value);
-      });
-    });
-  };
-  const getCsvData = async () => {
-    let csvData = await fetchCsv();
-    console.log(csvData)
-    // Papa.parse(csvData, {
-    //   console.log(svgData)
-    //   complete: getData
-    // });
-  };
   React.useEffect(() => {
-    // getHome();
-    getCsvData();
+    getHome();
   }, []);
 
   const getHome = async () => {
@@ -66,9 +48,37 @@ const Home = () => {
     ]);
     getHome();
   };
+  const renderTable = restDatas.map((val, idx) => {
+    return (
+      <tr>
+        <td>{val["Sun"]}</td>
+        <td>{val["Mon"]}</td>
+        <td>{val["Tue"]}</td>
+        <td>{val["Wed"]}</td>
+        <td>{val["Thu"]}</td>
+        <td>{val["Fri"]}</td>
+        <td>{val["Sat"]}</td>
+      </tr>
+    );
+  });
   return (
     <header className="App-header">
-      <img src={logo} className="App-logo" alt="logo" />
+      <div className="container">
+        <table className="table table-light">
+          <thead className="bg-primary text-white">
+            <tr>
+              <th>Sun</th>
+              <th>Mon</th>
+              <th>Tue</th>
+              <th>Wen</th>
+              <th>Thu</th>
+              <th>Fri</th>
+              <th>Sat</th>
+            </tr>
+          </thead>
+          <tbody>{renderTable}</tbody>
+        </table>
+      </div>
       <DayPicker />
       <div>
         {datas &&
