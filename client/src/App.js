@@ -3,6 +3,7 @@ import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Route, Switch ,Redirect} from "react-router-dom";
 import PrivateRoute from "./routes/PrivateRoute";
+import 'element-theme-default';
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Login from "./pages/Login";

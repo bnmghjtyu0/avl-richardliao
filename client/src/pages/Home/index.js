@@ -1,5 +1,10 @@
 import React from "react";
 import { useHistory, useLocation } from "react-router-dom";
+import DayPicker from "react-day-picker";
+import "react-day-picker/lib/style.css";
+import axios from "axios";
+import CSVReader from "react-csv-reader";
+import Papa from 'papaparse';
 import withLayout from "../../container/withLayout";
 import logo from "../../logo.svg";
 import server from "../../server/index";
@@ -23,8 +28,27 @@ const Home = () => {
     from: { pathname: "/login" }
   };
   let history = useHistory();
+  const fetchCsv = () => {
+    return fetch("/data/data.csv").then(function(response) {
+      let reader = response.body.getReader();
+      let decoder = new TextDecoder("utf-8");
+
+      return reader.read().then(function(result) {
+        return decoder.decode(result.value);
+      });
+    });
+  };
+  const getCsvData = async () => {
+    let csvData = await fetchCsv();
+    console.log(csvData)
+    // Papa.parse(csvData, {
+    //   console.log(svgData)
+    //   complete: getData
+    // });
+  };
   React.useEffect(() => {
-    getHome();
+    // getHome();
+    getCsvData();
   }, []);
 
   const getHome = async () => {
@@ -45,6 +69,7 @@ const Home = () => {
   return (
     <header className="App-header">
       <img src={logo} className="App-logo" alt="logo" />
+      <DayPicker />
       <div>
         {datas &&
           datas.map((data, dataIdx) => {
